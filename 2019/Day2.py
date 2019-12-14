@@ -1,19 +1,25 @@
 def parseIntCodes(intcodes):
     val = intcodes[0]
     i = 0
+    max_val = len(intcodes)
+
+    wrk_array = intcodes.copy()
     while val != 99:
-        i1=intcodes[intcodes[i+1]]
-        i2=intcodes[intcodes[i+2]]
-        outp = intcodes[i+3]
+        i1=wrk_array[wrk_array[i+1]]
+        i2=wrk_array[wrk_array[i+2]]
+        outp = wrk_array[i+3]
         if val == 1:
-            intcodes[outp] = i1 + i2
+            wrk_array[outp] = i1 + i2
         elif val == 2:
-            intcodes[outp] = i1 * i2
+            wrk_array[outp] = i1 * i2
 
         i += 4
-        val = intcodes[i]
+        if i < max_val:
+            val = wrk_array[i]
+        else:
+            val = 99
     
-    return intcodes
+    return wrk_array
 
 def main():
     file_name='Day2Input.txt'
@@ -23,12 +29,18 @@ def main():
     with open(file_name) as fp:
         intcodes = [int(x) for x in fp.read().split(',')]
 
-    intcodes[1]=12
-    intcodes[2]=2
+    for i in range(0,99, 1):
+        for j in range(0,99,1):
 
-    final_codes = parseIntCodes(intcodes)
-    
-    print(f"First Value: {final_codes[0]}")
+            intcodes[1]=i
+            intcodes[2]=j
+
+            final_codes = parseIntCodes(intcodes)
+
+            if final_codes[0] == 19690720:
+                print (f"Noun: {i}\nVerb: {j}")
+                result = 100 * i + j
+                print (f"100*N+V = {result}")
 
 if __name__ == "__main__":
     main()
